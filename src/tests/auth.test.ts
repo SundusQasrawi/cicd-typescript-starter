@@ -30,6 +30,6 @@ describe("getAPIKey", () => {
       authorization: "ApiKey abc123",
     };
 
-    expect(getAPIKey(headers)).toBe("wrongkey");
+    expect(getAPIKey(headers)).toBe("abc123");
   });
 });
