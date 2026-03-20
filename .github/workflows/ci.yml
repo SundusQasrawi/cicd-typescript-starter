@@ -45,3 +45,33 @@ jobs:
 
       - name: Check linting
         run: npm run lint -- --max-warnings=0
+ 
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install
+      - run: npm run build
+
+      - name: Auth to GCP
+        uses: google-github-actions/auth@v2
+        with:
+           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Set project
+        run: gcloud config set project qwiklabs-gcp-02-3382b5010cbb
+
+      - name: Build & Push
+        run: |
+          gcloud builds submit \
+          --tag us-docker.pkg.dev/qwiklabs-gcp-02-3382b5010cbb/notely-ar-repo/notely:latest .
