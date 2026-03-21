@@ -9,14 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
 
       - name: Auth to GCP
         uses: google-github-actions/auth@v2
@@ -27,9 +32,16 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Set project
-        run: gcloud config set project qwiklabs-gcp-04-b8b5d25c073e  # ← replace
+        run: gcloud config set project qwiklabs-gcp-04-b8b5d25c073e
 
       - name: Build & Push
         run: |
           gcloud builds submit \
             --tag us-docker.pkg.dev/qwiklabs-gcp-04-b8b5d25c073e/notely-ar-repo/notely:latest .
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy notely \
+            --image us-docker.pkg.dev/qwiklabs-gcp-04-b8b5d25c073e/notely-ar-repo/notely:latest \
+            --region us-central1 \
+            --allow-unauthenticated
