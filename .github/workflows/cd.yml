@@ -32,16 +32,16 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Set project
-        run: gcloud config set project qwiklabs-gcp-04-b8b5d25c073e
+        run: gcloud config set project qwiklabs-gcp-00-edaa00a4806f
 
       - name: Build & Push
         run: |
           gcloud builds submit \
-            --tag us-docker.pkg.dev/qwiklabs-gcp-04-b8b5d25c073e/notely-ar-repo/notely:latest .
+            --tag us-docker.pkg.dev/qwiklabs-gcp-00-edaa00a4806f/notely-ar-repo/notely:latest .
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy notely \
-            --image us-docker.pkg.dev/qwiklabs-gcp-04-b8b5d25c073e/notely-ar-repo/notely:latest \
+            --image us-docker.pkg.dev/qwiklabs-gcp-00-edaa00a4806f/notely-ar-repo/notely:latest \
             --region us-central1 \
             --allow-unauthenticated
