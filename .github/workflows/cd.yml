@@ -48,5 +48,5 @@ jobs:
         run: |
           gcloud run deploy notely \
             --image us-docker.pkg.dev/qwiklabs-gcp-03-151dc22fc713/notely-ar-repo/notely:latest \
-            --region us\
+            --region us-east1\
             --allow-unauthenticated
